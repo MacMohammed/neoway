@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"io"
 	"neoway/model"
+	"neoway/response"
 	"net/http"
 	"os"
 	"path/filepath"
@@ -35,7 +36,7 @@ func UploadFile(w http.ResponseWriter, r *http.Request) {
 
 	if err != nil {
 		fmt.Println(err)
-		http.Error(w, err.Error(), http.StatusBadRequest)
+		response.Erro(w, http.StatusBadRequest, err)
 		return
 	}
 
@@ -50,7 +51,7 @@ func UploadFile(w http.ResponseWriter, r *http.Request) {
 		err = os.Mkdir(path, os.ModePerm)
 		if err != nil {
 			//Caso não seja possível criar a pasta 'uploads', devolve o status de erro do servidor
-			http.Error(w, err.Error(), http.StatusInternalServerError)
+			response.Erro(w, http.StatusInternalServerError, err)
 			return
 		}
 	}
@@ -63,7 +64,7 @@ func UploadFile(w http.ResponseWriter, r *http.Request) {
 
 	destino, err := os.Create(fileName)
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
+		response.Erro(w, http.StatusInternalServerError, err)
 		return
 	}
 
@@ -71,17 +72,15 @@ func UploadFile(w http.ResponseWriter, r *http.Request) {
 
 	_, err = io.Copy(destino, file)
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
+		response.Erro(w, http.StatusInternalServerError, err)
 		return
 	}
 
 	 
 	if err = model.PersistData(fileName); err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
+		response.Erro(w, http.StatusInternalServerError, err)
 		return
 	}
 
-
-	fmt.Fprintf(w, "Upload successful")
-
+	response.JSON(w, http.StatusOK, "Upload successful")
 }
