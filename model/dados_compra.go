@@ -42,7 +42,8 @@ func PersistData(file string)  error {
 
 	db, err := db.Conectar();
 	if err != nil {
-		fmt.Println(err)
+
+		fmt.Println("O erro foi no acesso ao banco")
 		return err
 	}
 
