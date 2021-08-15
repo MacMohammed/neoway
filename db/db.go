@@ -8,19 +8,16 @@ import (
 )
 
 const (
-	host     = "localhost"
+	host     = "bd_postgres"
 	port     = 5432
 	user     = "postgres"
-	password = "1qaz!QAZ"
+	password = "123456"
 	dbname   = "neoway"
   )
 
 //Conectar abre a conexão com o banco de dados a a retorna.
 func Conectar() (*sql.DB, error) {
-	psqlConnectionString := fmt.Sprintf("host=%s port=%d user=%s "+
-    "password=%s dbname=%s sslmode=disable",
-    host, port, user, password, dbname)
-
+	psqlConnectionString := fmt.Sprintf("postgres://%v:%v@%v:%v/%v?sslmode=disable", user, password, host, port, dbname)
 
 	db, erro := sql.Open("postgres", psqlConnectionString)
 
@@ -30,6 +27,7 @@ func Conectar() (*sql.DB, error) {
 
 	if db.Ping(); erro != nil {
 		db.Close()
+		fmt.Println("Não conenctou no banco...")
 		return nil, erro
 	}
 
