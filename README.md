@@ -22,7 +22,7 @@
 7. Para visualizar os dados acesse o container "neoway" na interface do Docker, em seguida acesso o terminal CLI do container "bd_postgres" como na imagem a baixo;
    ![acesso-container-docker](./imgs/container.jpeg)
 	
-	Outra maneira de acessar o banco de dados é ditando os seguintes comandos no prompt/terminal:
+	Outra maneira de acessar o banco de dados é gitando os seguintes comandos no prompt/terminal:
 	1. docker ps (esse comando lista os containers )
 	2. docker exec -it \<nome do container\> bash.
 
