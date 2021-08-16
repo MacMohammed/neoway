@@ -26,7 +26,7 @@
 
 
 
-### A tabela segue a seguinte estrutura: 
+### A tabela ("tb_dados_compra") segue a seguinte estrutura: 
 
 	create table if not exists tb_dados_compra (
 		cpf double precision not null,
