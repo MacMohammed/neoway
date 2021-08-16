@@ -15,7 +15,7 @@
 2. Baixe ou clone o projeto.
 3. Acesse a pasta raiz do projeto pelo prompt de comando ou terminal, em seguida digite "docker-compose up" e aguarde a inicialização do programa. 
 4. Após a inicialização do container acesso o endereço "http://localhost:4500" para acessar a seguinte pagina;
-   ![Neoway](D:\nasty\Neoway.png)
+   ![Neoway](./imgs/neoway.jpeg)
 5. Clique no botão procurar para selecionar o arquivo a ser carregado;
 6.  Após a seleção do arquivo clique no botão "Enviar Arquivo" e aguarde a persistência dos dados no banco;
    ![Neoway-carregamento](D:\nasty\Neoway-carregamento.png)
