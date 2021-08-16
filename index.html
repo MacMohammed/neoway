@@ -1,29 +1,71 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Neoway</title>
   </head>
-  <body>
 
+  <style>
+    h1 {
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 48px;
+      color: #036;
+      font-weight: bold;
+    }
+
+    form input[type="file"] {
+    background-color:#22a6b3;
+    border:1px solid #000;
+    padding:5px;
+}
+
+    button {
+      padding: 5px;
+      background-color: #036;
+      border: 1px solid #000;
+      color: #fff;
+      font-weight: bold;
+    }
+
+    .spinner {
+      border: 8px solid rgba(0, 0, 0, 0.1);
+      border-left-color: #22a6b3;
+      border-radius: 50%;
+      height: 60px;
+      width: 60px;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+  </style>
+
+  <body>
     <h1>Teste Neoway</h1>
-    <form id="form">
-      <input type="file" id="importFile" />
-      <button type="submit">Enviar Arquivo</button>
-    </form>
-  
-    <p id="message"></p>
-    
+
+    <div>
+      <form id="form">
+        <input type="file" id="importFile" />
+        <button type="submit">Enviar Arquivo</button>
+      </form>
+    </div>
+
+    <div class="spinner" hidden></div>
   </body>
   <script>
     const form = document.getElementById("form");
     const importFile = document.getElementById("importFile");
-    const message = document.getElementById("message");
+    const spinner = document.querySelector(".spinner");
 
     form.addEventListener("submit", async function (e) {
       e.preventDefault();
+
+      spinner.removeAttribute("hidden");
 
       if (!window.fetch || !window.FormData) {
         alert("Use outro navegador.");
@@ -41,11 +83,15 @@
           body: formData,
         });
 
-        const data = await response.json();
-        message.innerText = data;
-      
+        // const data = await response.json();
+
+        if (response.ok) {
+          alert("Arquivo carregado com suceso!");
+        }
+
+        spinner.setAttribute("hidden", "");
       } catch (error) {
-        message.innerText = "Ocorreu um problema";
+        spinner.setAttribute("hidden", "");
       }
 
       form.reset();

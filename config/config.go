@@ -32,7 +32,6 @@ func Carregar() {
 		Porta = 9000
 	}
 
-
 	PsqlConnectionString = fmt.Sprintf("postgres://%v:%v@%v:%v/%v?sslmode=disable", 
 		os.Getenv("DB_USER"), os.Getenv("DB_PASSWORD"), os.Getenv("DB_HOST"), os.Getenv("DB_PORT"), os.Getenv("DB_NAME"))
 

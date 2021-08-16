@@ -82,5 +82,5 @@ func UploadFile(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	response.JSON(w, http.StatusOK, "Upload successful")
+	response.JSON(w, http.StatusOK, "Arquivo carregado com sucesso.")
 }
