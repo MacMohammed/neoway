@@ -2,7 +2,7 @@
 
 ## Serviço de manipulação de dados e persistência em base de dados.
 
- Tecnologias usadas:
+## Tecnologias usadas:
  * Golang
  * Postgres
  * HTML
