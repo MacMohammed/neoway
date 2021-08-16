@@ -11,9 +11,9 @@
 
 ## Instruções de uso
 
-1. Antes certifique-se que tenha o Docker instalado em sua maquina.
-2. Baixe ou clone o projeto.
-3. Acesse a pasta raiz do projeto pelo prompt de comando ou terminal, em seguida digite "docker-compose up" e aguarde a inicialização do programa. 
+1. Antes certifique-se que tenha o Docker instalado em sua maquina;
+2. Baixe ou clone o projeto;
+3. Acesse a pasta raiz do projeto pelo prompt de comando ou terminal, em seguida digite "docker-compose up" e aguarde a inicialização do programa;
 4. Após a inicialização do container acesso o endereço "http://localhost:4500" para acessar a seguinte pagina;
    ![Neoway](./imgs/neoway.jpeg)
 5. Clique no botão procurar para selecionar o arquivo a ser carregado;
@@ -23,11 +23,11 @@
    ![acesso-container-docker](./imgs/container.jpeg)
 	
 	Outra maneira de acessar o banco de dados é gitando os seguintes comandos no prompt/terminal:
-	1. docker ps (esse comando lista os containers )
+	1. docker ps (esse comando lista os containers);
 	2. docker exec -it \<nome do container\> bash.
 
 8. Acesso o banco de dados com o seguinte comando "psql -U postgres -d neoway";
-9. Para verificação dos dados, como sugestão, digite a query "select * from tb_dados_compra limit 10;"
+9. Para verificação dos dados, como sugestão, digite a query "select * from tb_dados_compra limit 10;".
 
 
 
@@ -46,4 +46,5 @@
 
 
 
-Entre em contato: https://www.linkedin.com/in/mac-mohammed-alves-dos-santos-00037423/ or macmohammed@gmail.com
+Entre em contato: 
+	https://www.linkedin.com/in/mac-mohammed-alves-dos-santos-00037423/ ou macmohammed@gmail.com
