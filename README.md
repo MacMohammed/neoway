@@ -1,6 +1,13 @@
 # Teste Neoway :globe_with_meridians:
 
- Serviço de manipulação de dados e persistência em base de dados, desenvolv
+## Serviço de manipulação de dados e persistência em base de dados.
+
+ Tecnologias usadas:
+ * Golang
+ * Postgres
+ * HTML
+ * CSS
+ * Javascript
 
 ## Instruções de uso
 
