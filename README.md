@@ -18,9 +18,9 @@
    ![Neoway](./imgs/neoway.jpeg)
 5. Clique no botão procurar para selecionar o arquivo a ser carregado;
 6.  Após a seleção do arquivo clique no botão "Enviar Arquivo" e aguarde a persistência dos dados no banco;
-   ![Neoway-carregamento](D:\nasty\Neoway-carregamento.png)
+   ![Neoway-carregamento](./imgs/carregamento.jpeg)
 7. Para visualizar os dados acesse o container "neoway" na interface do Docker, em seguida acesso o terminal CLI do container "bd_postgres" como na imagem a baixo;
-   ![acesso-container-docker](D:\nasty\acesso-container-docker.PNG)
+   ![acesso-container-docker](./imgs/container.jpeg)
 8. Acesso o banco de dados com o seguinte comando "psql -U postgres -d neoway";
 9. Para verificação dos dados digite a query "select * from tb_dados_compra limit 10;"
 
