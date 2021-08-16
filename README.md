@@ -24,7 +24,7 @@
 	
 	Outra maneira de acessar o banco de dados é ditando os seguintes comandos no prompt/terminal:
 	1. docker ps (esse comando lista os containers )
-	2. docker exec -it <nome do container> bash.
+	2. docker exec -it \<nome do container\> bash.
 
 8. Acesso o banco de dados com o seguinte comando "psql -U postgres -d neoway";
 9. Para verificação dos dados, como sugestão, digite a query "select * from tb_dados_compra limit 10;"
