@@ -46,4 +46,8 @@
 
 
 
-Entre em contato:\ https://www.linkedin.com/in/mac-mohammed-alves-dos-santos-00037423/\ ou macmohammed@gmail.com
+Entre em contato:
+\
+https://www.linkedin.com/in/mac-mohammed-alves-dos-santos-00037423/
+\
+macmohammed@gmail.com
