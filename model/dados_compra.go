@@ -4,7 +4,7 @@ import (
 	"bufio"
 	"errors"
 	"fmt"
-	db "neoway/db"
+	"neoway/db"
 	"neoway/utils"
 	"os"
 	"strings"
