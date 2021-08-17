@@ -68,6 +68,7 @@ func UploadFile(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	//Local para onde será movido o arquivo 
 	defer destino.Close()
 
 	_, err = io.Copy(destino, file)
@@ -76,6 +77,10 @@ func UploadFile(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	/*
+		Aqui ocorre a chamada a função "PersistData", do pacote model.
+		É nela que os dados do arquivo serão tratados e 
+	*/
 	 
 	if err = model.PersistData(fileName); err != nil {
 		response.Erro(w, http.StatusInternalServerError, err)

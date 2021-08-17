@@ -2,11 +2,13 @@ package model
 
 import (
 	"bufio"
+	"bytes"
 	"errors"
 	"fmt"
 	"neoway/db"
 	"neoway/utils"
 	"os"
+	"strconv"
 	"strings"
 	"time"
 )
@@ -23,8 +25,9 @@ type dadosCompra struct {
 	LojaUltimaCompra   string
 }
 
+
 //PersistData persiste no banco os dados do arquivo
-func PersistData(file string)  error {
+func PersistData(file string) error  {
 	fmt.Printf("Início do processamento: %v\n", time.Now().Format("2006-01-02 15:04:05"))
 
 	arquivo, err := os.Open(file)
@@ -40,15 +43,18 @@ func PersistData(file string)  error {
 	//Esse trecho do código garante que a primeira linha do arquivo será ignorada
 	scanner.Scan()
 
-	db, err := db.Conectar();
-	if err != nil {
 
-		fmt.Println("O erro foi no acesso ao banco")
-		return err
-	}
+	// db, err := db.Conectar();
+	// if err != nil {
 
-	defer db.Close()
+	// 	fmt.Println("O erro foi no acesso ao banco")
+	// 	return err
+	// }
+	// defer db.Close()
 
+	dados := []*dadosCompra{}
+
+	//Aqui é feito um loop para tratar e persistir as linhas do arquivo no banco de dados.
 	for scanner.Scan() {
 		s := strings.Fields(scanner.Text())
 
@@ -56,8 +62,6 @@ func PersistData(file string)  error {
 			fmt.Printf("Fim do processamento: %v\n", time.Now().Format("2006-01-02 15:04:05"))
 			return errors.New("arquivo não compatível.")
 		}
-
-
 
 		cpf, err := utils.LimparCpfCnpj(s[0])
 		if err != nil {
@@ -100,21 +104,97 @@ func PersistData(file string)  error {
 			LojaUltimaCompra: lojaUltimaCompra,
 		}
 
-		statement, err := db.Prepare("insert into tb_dados_compra (cpf, private, incompleto, data_ultima_compra, ticket_medio, ticket_ultima_compra, loja_mais_frequente, loja_ultima_compra) values ($1, $2, $3, $4, $5, $6, $7, $8);",)
-		if err != nil {
-			fmt.Println(err)
-			return err
+		dados = append(dados, &d)
+	}
+
+	//Variável temporária para persistir os dados no banco
+	temp := []*dadosCompra{}
+
+	for _, dd := range dados {
+		temp = append(temp, dd)
+
+		//Afim de garantir performance, os dados são inseridos no banco a cada 5000 linhas
+		if len(temp) == 5000 {
+			err = persistir(temp)
+			if err != nil {
+				return err
+			} else {
+				temp = []*dadosCompra{}
+			}
 		}
+	}
 
-		defer statement.Close();
-
-		if _, err := statement.Exec(d.Cpf, d.Private, d.Incompleto, d.DataUltimaCompra, d.TicketMedio, d.TicketUltimaCompra, d.LojaMaisFrequente, d.LojaUltimaCompra,); err != nil {
-			fmt.Println(err)
+	//Caso fique um saldo, essa parte do código garante a persistência do saldo.
+	if len(temp) > 0 {
+		err = persistir(temp)
+		if err != nil {
 			return err
+		} else {
+			temp = []*dadosCompra{}
 		}
 	}
 
 	fmt.Printf("Fim do processamento: %v\n", time.Now().Format("2006-01-02 15:04:05"))
+
+	return nil
+}
+
+func persistir(dados []*dadosCompra) error {
+
+	query := `insert into tb_dados_compra (cpf, private, incompleto, data_ultima_compra, ticket_medio, ticket_ultima_compra, loja_mais_frequente, loja_ultima_compra) values %s`
+	
+	if err := prepare(query, dados); err != nil {
+		return err
+	}
+
+	return nil
+
+}
+
+//Essa função é necessária para preparar a string com as colunas e valores para persistir os dados no banco
+func prepare(s string, dados []*dadosCompra) error {
+
+	db, err := db.Conectar();
+	if err != nil {
+		return err
+	}
+	defer db.Close()
+
+	bf := bytes.Buffer{}
+	values := make([]interface{}, 0, len(dados))
+	for i, d := range dados {
+		values = append(values,	
+							d.Cpf,
+							d.Private,
+							d.Incompleto,
+							d.DataUltimaCompra,
+							d.TicketMedio,
+							d.TicketUltimaCompra,
+							d.LojaMaisFrequente,
+							d.LojaUltimaCompra,)
+
+		//Quantidade de colunas que serão persistidas no banco
+		numFields := 8
+		n := i * numFields
+
+		bf.WriteString("(")
+		for j := 0; j < numFields; j++ {
+			bf.WriteString("$")
+			bf.WriteString(strconv.Itoa(n + j + 1))
+			bf.WriteString(", ")
+		}
+		bf.Truncate(bf.Len()-2)
+		bf.WriteString("), ")
+	}
+	bf.Truncate(bf.Len()-2)
+
+	stmt := fmt.Sprintf(s, bf.String())
+
+	_, err = db.Exec(stmt, values...)
+	if err != nil {
+		fmt.Println(err)
+		return err
+	}
 
 	return nil
 }

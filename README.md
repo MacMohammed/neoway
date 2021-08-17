@@ -31,7 +31,9 @@
 
 
 
-### A tabela ("tb_dados_compra") segue a seguinte estrutura: 
+### Estrutura relacional: 
+
+	CREATE DATABASE neoway;
 
 	create table if not exists tb_dados_compra (
 		cpf double precision not null,

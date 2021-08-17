@@ -9,9 +9,8 @@ import (
 	_ "github.com/lib/pq"
 )
 
-//Conectar abre a conexão com o banco de dados a a retorna.
+//Conectar abre a conexão com o banco de dados retorna. Se algo der errado, um erro será retornado.
 func Conectar() (*sql.DB, error) {
-	// psqlConnectionString := fmt.Sprintf("postgres://%v:%v@%v:%v/%v?sslmode=disable", user, password, host, port, dbname)
 
 	db, erro := sql.Open("postgres", config.PsqlConnectionString)
 
