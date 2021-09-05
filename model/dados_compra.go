@@ -25,9 +25,8 @@ type dadosCompra struct {
 	LojaUltimaCompra   string
 }
 
-
 //PersistData persiste no banco os dados do arquivo
-func PersistData(file string) error  {
+func PersistData(file string) error {
 	fmt.Printf("Início do processamento: %v\n", time.Now().Format("2006-01-02 15:04:05"))
 
 	arquivo, err := os.Open(file)
@@ -42,15 +41,6 @@ func PersistData(file string) error  {
 
 	//Esse trecho do código garante que a primeira linha do arquivo será ignorada
 	scanner.Scan()
-
-
-	// db, err := db.Conectar();
-	// if err != nil {
-
-	// 	fmt.Println("O erro foi no acesso ao banco")
-	// 	return err
-	// }
-	// defer db.Close()
 
 	dados := []*dadosCompra{}
 
@@ -93,15 +83,15 @@ func PersistData(file string) error  {
 			fmt.Println(err)
 		}
 
-		d := dadosCompra {
-			Cpf: cpf,
-			Private: strings.TrimSpace(s[1]),
-			Incompleto: strings.TrimSpace(s[2]),
-			DataUltimaCompra: DataUltimaCompra,
-			TicketMedio: TicketMedio,
+		d := dadosCompra{
+			Cpf:                cpf,
+			Private:            strings.TrimSpace(s[1]),
+			Incompleto:         strings.TrimSpace(s[2]),
+			DataUltimaCompra:   DataUltimaCompra,
+			TicketMedio:        TicketMedio,
 			TicketUltimaCompra: TicketUltimaCompra,
-			LojaMaisFrequente: lojaMaisFrequente,
-			LojaUltimaCompra: lojaUltimaCompra,
+			LojaMaisFrequente:  lojaMaisFrequente,
+			LojaUltimaCompra:   lojaUltimaCompra,
 		}
 
 		dados = append(dados, &d)
@@ -142,7 +132,7 @@ func PersistData(file string) error  {
 func persistir(dados []*dadosCompra) error {
 
 	query := `insert into tb_dados_compra (cpf, private, incompleto, data_ultima_compra, ticket_medio, ticket_ultima_compra, loja_mais_frequente, loja_ultima_compra) values %s`
-	
+
 	if err := prepare(query, dados); err != nil {
 		return err
 	}
@@ -154,7 +144,7 @@ func persistir(dados []*dadosCompra) error {
 //Essa função é necessária para preparar a string com as colunas e valores para persistir os dados no banco
 func prepare(s string, dados []*dadosCompra) error {
 
-	db, err := db.Conectar();
+	db, err := db.Conectar()
 	if err != nil {
 		return err
 	}
@@ -163,15 +153,15 @@ func prepare(s string, dados []*dadosCompra) error {
 	bf := bytes.Buffer{}
 	values := make([]interface{}, 0, len(dados))
 	for i, d := range dados {
-		values = append(values,	
-							d.Cpf,
-							d.Private,
-							d.Incompleto,
-							d.DataUltimaCompra,
-							d.TicketMedio,
-							d.TicketUltimaCompra,
-							d.LojaMaisFrequente,
-							d.LojaUltimaCompra,)
+		values = append(values,
+			d.Cpf,
+			d.Private,
+			d.Incompleto,
+			d.DataUltimaCompra,
+			d.TicketMedio,
+			d.TicketUltimaCompra,
+			d.LojaMaisFrequente,
+			d.LojaUltimaCompra)
 
 		//Quantidade de colunas que serão persistidas no banco
 		numFields := 8
@@ -183,10 +173,10 @@ func prepare(s string, dados []*dadosCompra) error {
 			bf.WriteString(strconv.Itoa(n + j + 1))
 			bf.WriteString(", ")
 		}
-		bf.Truncate(bf.Len()-2)
+		bf.Truncate(bf.Len() - 2)
 		bf.WriteString("), ")
 	}
-	bf.Truncate(bf.Len()-2)
+	bf.Truncate(bf.Len() - 2)
 
 	stmt := fmt.Sprintf(s, bf.String())
 
